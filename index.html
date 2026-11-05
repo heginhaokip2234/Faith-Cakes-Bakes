@@ -1,0 +1,1369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faith Cakes & Bakes</title>
+<meta name="description" content="Order homemade cakes, cupcakes and treats from Faith Cakes & Bakes.">
+<meta name="theme-color" content="#1f8463">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Faith Cakes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" async onload="window.renderPay && renderPay()"></script>
+<style>
+:root{
+  --bg:#f2faf6; --surface:#ffffff; --surface-2:#dff3ea; --text:#1d3a2f; --muted:#587a6c;
+  --accent:#1f8463; --accent-ink:#ffffff; --accent-soft:#d3f1e4; --border:#c9e6d9; --ok:#1f8463; --danger:#c0453b;
+  --shadow:0 1px 2px rgba(29,58,47,.06),0 4px 16px rgba(29,58,47,.07);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#111b17; --surface:#17241f; --surface-2:#1e3029; --text:#e2f4eb; --muted:#9bbcae;
+    --accent:#72dcb2; --accent-ink:#0b2a1e; --accent-soft:#1d3d31; --border:#2a3f36; --ok:#72dcb2; --danger:#ef8a80;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111b17; --surface:#17241f; --surface-2:#1e3029; --text:#e2f4eb; --muted:#9bbcae;
+  --accent:#72dcb2; --accent-ink:#0b2a1e; --accent-soft:#1d3d31; --border:#2a3f36; --ok:#72dcb2; --danger:#ef8a80;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:16px/1.5 Inter,system-ui,sans-serif;padding-bottom:88px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0;line-height:1.15}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+header.hero{padding:40px 0 24px;text-align:center}
+.hero .logo{font-size:44px}
+.hero h1{font-size:clamp(30px,6vw,46px);margin-top:4px}
+.hero p{color:var(--muted);margin:8px auto 0;max-width:46ch}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--border)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto}
+nav.tabs button{background:none;border:0;padding:14px 14px;cursor:pointer;color:var(--muted);font-weight:500;border-bottom:2px solid transparent;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--accent);border-color:var(--accent)}
+section.panel{padding:24px 0}
+section.panel[hidden]{display:none}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{border:1px solid var(--border);background:var(--surface);padding:6px 14px;border-radius:999px;cursor:pointer;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.card .art{height:110px;display:grid;place-items:center;font-size:52px;background:var(--surface-2)}
+.card .body{padding:14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.card h3{font-size:18px}
+.card p{margin:0;color:var(--muted);font-size:14px;flex:1}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.price{font-weight:600}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer}
+.btn:hover{filter:brightness(1.05)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.builder{display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start}
+@media (max-width:760px){.builder{grid-template-columns:1fr}}
+fieldset{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:14px;margin:0 0 14px}
+legend{font-weight:600;padding:0 6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt span{display:inline-block;border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:14px;background:var(--bg)}
+.opt input:checked+span{border-color:var(--accent);background:var(--accent-soft);color:var(--text);box-shadow:inset 0 0 0 1px var(--accent)}
+.opt input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.opt small{color:var(--muted)}
+label.field{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:500;margin-bottom:12px}
+input[type=text],input[type=password],input[type=tel],input[type=email],input[type=date],select,textarea{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;width:100%}
+textarea{min-height:80px;resize:vertical}
+.summary{position:sticky;top:64px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.summary .cake{font-size:64px;text-align:center}
+.summary ul{list-style:none;padding:0;margin:8px 0 12px;font-size:14px;color:var(--muted)}
+.summary .total{font-size:24px;font-family:Fraunces,serif}
+.cart-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.cart-item{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px}
+.cart-item .emoji{font-size:30px}
+.cart-item .info{flex:1;min-width:0}
+.cart-item .info small{color:var(--muted);display:block;overflow-wrap:anywhere}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--bg);cursor:pointer}
+.empty{text-align:center;color:var(--muted);padding:32px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.two{grid-template-columns:1fr}}
+.totals{background:var(--surface-2);border-radius:14px;padding:14px;margin:12px 0}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.cartbar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--border);z-index:10}
+.cartbar .wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:12px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:10px;opacity:0;transition:.25s;pointer-events:none;z-index:20}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.info-grid .card{padding:16px}
+.info-grid .card h3{margin-bottom:6px}
+.note{font-size:13px;color:var(--muted)}
+header.hero{position:relative}
+.gear{position:absolute;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);border-radius:999px;width:40px;height:40px;cursor:pointer;font-size:18px}
+.set-sec{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px}
+.set-sec h3{margin-bottom:4px}
+.set-sec > .note{margin:0 0 12px}
+.ed-row{display:grid;gap:8px;align-items:center;padding:10px 0;border-top:1px solid var(--border)}
+.ed-row:first-of-type{border-top:0}
+.ed-menu .emo{grid-area:emo}.ed-menu .nm{grid-area:nm}.ed-menu .cat{grid-area:cat}.ed-menu .pr{grid-area:pr}.ed-menu .del{grid-area:del}.ed-menu .desc{grid-area:desc}
+.ed-opt{grid-template-columns:1fr 110px 40px}
+.ed-row input{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;width:100%;min-width:0}
+.ed-row .emo{text-align:center;font-size:20px}
+.del{background:none;border:1px solid var(--border);border-radius:8px;height:38px;cursor:pointer;color:var(--danger)}
+@media (max-width:620px){
+  .ed-menu .del{justify-self:end;width:40px}
+}
+
+.price-in{position:relative}
+.price-in span{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.price-in input{padding-left:26px}
+/* ===== Visual polish & animation ===== */
+:root{--t0:#ffe3ea;--t1:#fff1c9;--t2:#e6e0ff;--t3:#d3f3e6;--t4:#ffe1cc;--hero1:#c9f0de;--hero2:#f2faf6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--t0:#3a2630;--t1:#3a3322;--t2:#2b2840;--t3:#1d3d31;--t4:#3c2a20;--hero1:#173a2d;--hero2:#111b17}}
+:root[data-theme="dark"]{--t0:#3a2630;--t1:#3a3322;--t2:#2b2840;--t3:#1d3d31;--t4:#3c2a20;--hero1:#173a2d;--hero2:#111b17}
+
+header.hero{max-width:none;margin:0;padding:44px 16px 40px;overflow:hidden;isolation:isolate;
+  background:radial-gradient(120% 90% at 50% 0%,var(--hero1) 0%,var(--hero2) 75%);border-radius:0 0 28px 28px}
+.hero .logo{display:inline-grid;place-items:center;width:84px;height:84px;font-size:46px;border-radius:50%;
+  background:var(--surface);box-shadow:0 8px 24px rgba(31,132,99,.22);animation:bob 3.2s ease-in-out infinite}
+.hero h1{animation:rise .6s .1s both}
+.hero p{animation:rise .6s .2s both}
+.decor{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.decor span{position:absolute;font-size:26px;opacity:.55;animation:drift 9s ease-in-out infinite}
+.decor span:nth-child(1){left:6%;top:18%;animation-delay:-1s}
+.decor span:nth-child(2){left:84%;top:58%;animation-delay:-3s;font-size:30px}
+.decor span:nth-child(3){left:12%;top:70%;animation-delay:-5s;font-size:22px}
+.decor span:nth-child(4){left:76%;top:12%;animation-delay:-2s;font-size:20px}
+.decor span:nth-child(5){left:48%;top:84%;animation-delay:-6s;font-size:18px}
+.decor i{position:absolute;width:6px;height:16px;border-radius:4px;opacity:.7;animation:spin 6s linear infinite}
+.decor i:nth-of-type(1){left:24%;top:30%;background:#f59ab5}
+.decor i:nth-of-type(2){left:68%;top:36%;background:#ffd166;animation-duration:7s}
+.decor i:nth-of-type(3){left:34%;top:78%;background:#9b8cff;animation-duration:5s}
+.decor i:nth-of-type(4){left:90%;top:84%;background:#1f8463;animation-duration:8s}
+.decor i:nth-of-type(5){left:4%;top:46%;background:#ff9f6e;animation-duration:6.5s}
+
+nav.tabs{backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);background:color-mix(in srgb,var(--bg) 95%,transparent)}
+nav.tabs button{transition:color .2s,border-color .2s}
+nav.tabs .ti{display:inline-block;margin-right:4px;transition:transform .3s}
+nav.tabs button{position:relative}
+.tbadge{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;margin-left:5px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:700;vertical-align:1px}
+.tbadge:empty{display:none}
+.tbadge.bump{animation:pop .5s}
+nav.tabs button[aria-selected="true"] .ti{animation:pop .45s}
+
+section.panel:not([hidden]){animation:rise .35s ease-out both}
+
+.chip{transition:transform .15s,background .2s,color .2s}
+.chip:active{transform:scale(.94)}
+
+.card{transition:transform .2s,box-shadow .2s;animation:rise .45s ease-out both;animation-delay:var(--d,0ms)}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(31,132,99,.16)}
+.card .art{position:relative;height:120px;font-size:56px;background:radial-gradient(circle at 50% 60%,var(--surface) 0%,var(--tint) 62%);overflow:hidden}
+.card .art .em{display:inline-block;animation:bob 3s ease-in-out infinite;animation-delay:var(--b,0ms);filter:drop-shadow(0 6px 6px rgba(0,0,0,.12));cursor:pointer}
+.card .art .em.wiggle{animation:wiggle .6s}
+.card .art::before,.card .art::after{content:"✦";position:absolute;color:var(--accent);opacity:0;font-size:12px;animation:twinkle 2.8s ease-in-out infinite;animation-delay:var(--b,0ms)}
+.card .art::before{right:14%;top:16%}
+.card .art::after{right:20%;top:58%;font-size:9px;animation-delay:calc(var(--b,0ms) + 1.2s)}
+.card .tag{position:absolute;left:10px;top:10px;font-size:11px;font-weight:600;letter-spacing:.02em;padding:3px 9px;border-radius:999px;background:var(--surface);color:var(--muted)}
+.card p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.price{color:var(--accent);font-size:17px}
+.btn{transition:transform .12s,filter .2s,box-shadow .2s}
+.btn:active{transform:scale(.95)}
+.add-btn{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:8px 14px;box-shadow:0 4px 12px rgba(31,132,99,.25)}
+.add-btn b{font-size:18px;line-height:1}
+.add-btn.done{animation:pop .4s}
+
+.summary .cake{display:block;animation:bob 3s ease-in-out infinite;filter:drop-shadow(0 8px 8px rgba(0,0,0,.12))}
+.summary .cake.pop{animation:pop .45s}
+.summary{background:linear-gradient(180deg,var(--accent-soft),var(--surface) 55%)}
+.opt span{transition:transform .15s,background .2s,border-color .2s}
+.opt input:checked+span{animation:pop .3s}
+
+.cart-item{animation:slideIn .35s ease-out both}
+.info-grid .card h3{display:flex;gap:6px;align-items:center}
+
+.cartbar{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:color-mix(in srgb,var(--surface) 88%,transparent);box-shadow:0 -6px 24px rgba(29,58,47,.08)}
+.cartbar .count{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 7px;margin-right:8px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:13px}
+.cartbar.bump .count{animation:pop .5s}
+.cartbar.bump #barBtn{animation:wiggle .5s}
+.flyer{position:fixed;z-index:30;font-size:40px;pointer-events:none;will-change:transform,opacity}
+.gear{transition:transform .5s}
+.gear:hover{transform:rotate(90deg)}
+
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}20%{transform:rotate(-12deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-6deg)}80%{transform:rotate(4deg)}}
+@keyframes drift{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(10px,-14px) rotate(8deg)}66%{transform:translate(-8px,8px) rotate(-6deg)}}
+@keyframes spin{from{transform:rotate(0) translateY(0)}50%{transform:rotate(180deg) translateY(-10px)}to{transform:rotate(360deg) translateY(0)}}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:.9;transform:scale(1.2)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+
+/* ===== Phone layout ===== */
+@media (max-width:560px){
+  header.hero{padding:36px 16px 30px}
+  .hero .logo{width:72px;height:72px;font-size:40px}
+  nav.tabs .wrap{justify-content:space-between;gap:0}
+  nav.tabs button{padding:12px 8px;font-size:14px;flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+  nav.tabs .ti{margin:0;font-size:20px}
+  .tbadge{position:absolute;top:6px;left:calc(50% + 6px);margin:0}
+  .decor span{opacity:.4}
+  .card .art{padding-top:12px}
+  .card .tag{font-size:10px;padding:2px 7px;left:8px;top:8px}
+  .chips{flex-wrap:nowrap;overflow-x:auto;margin:0 -16px 14px;padding:2px 16px 6px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:none}
+  .grid{grid-template-columns:1fr 1fr;gap:12px}
+  .card{border-radius:18px}
+  .card .art{height:104px;font-size:48px}
+  .card .body{padding:10px 12px 12px;gap:4px}
+  .card h3{font-size:15px}
+  .card p{font-size:12.5px;line-height:1.35}
+  .card .row{margin-top:4px}
+  .price{font-size:15px}
+  .add-btn{padding:0;width:36px;height:36px;justify-content:center}
+  .add-btn span{display:none}
+  .add-btn b{font-size:22px}
+  .summary{position:static}
+  .summary .cake{font-size:56px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+/* ===== Payment ===== */
+.pay{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;margin:4px 0 16px;box-shadow:var(--shadow)}
+.pay h3{margin-bottom:10px}
+.pay .opts{margin-bottom:12px}
+.pay .totals{margin:0 0 14px;background:var(--surface-2)}
+.pay .totals .now{font-weight:700;color:var(--accent);font-size:18px}
+.upi-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;padding:12px;font-size:16px;border-radius:12px}
+.qr-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;margin:14px 0}
+#upiQr{background:#fff;padding:10px;border-radius:12px;line-height:0;box-shadow:var(--shadow)}
+#upiQr img,#upiQr canvas{width:180px;height:180px}
+.upi-id{background:var(--bg);border:1px dashed var(--border);border-radius:10px;padding:8px 10px;margin-bottom:12px;font-size:14px;overflow-wrap:anywhere}
+.btn.small{padding:6px 12px;font-size:13px}
+.cake-write{display:block;margin-top:8px}
+.cake-write input{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:7px 10px;width:100%;font-size:14px}
+.cake-write span{font-size:12px;color:var(--muted);display:block;margin-bottom:2px}
+.cart-item{align-items:flex-start}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+/* ===== Festival specials ===== */
+.specials{position:relative;overflow:hidden;isolation:isolate;border-radius:22px;padding:16px 0 12px;margin-bottom:18px;
+  background:linear-gradient(135deg,#ffd166 0%,#ff9a5c 45%,#e8578a 100%);color:#3a1306;box-shadow:0 10px 28px rgba(232,87,138,.25);animation:rise .5s both}
+.specials::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.35) 50%,transparent 65%);transform:translateX(-100%);animation:shimmer 4.5s ease-in-out infinite}
+.sp-decor{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.sp-decor span{position:absolute;font-size:22px;animation:drift 7s ease-in-out infinite;opacity:.85}
+.sp-decor span:nth-child(1){right:6%;top:8%}
+.sp-decor span:nth-child(2){right:22%;top:4%;font-size:14px;animation-delay:-2s}
+.sp-decor span:nth-child(3){right:2%;top:40%;font-size:16px;animation-delay:-4s}
+.sp-head{padding:0 16px}
+.sp-head h2{font-size:22px}
+.sp-head p{margin:2px 0 10px;font-size:14px;opacity:.85}
+.sp-row{display:flex;gap:10px;overflow-x:auto;padding:4px 16px 8px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.sp-row::-webkit-scrollbar{display:none}
+.sp-card{flex:none;width:156px;scroll-snap-align:start;background:rgba(255,255,255,.94);border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;color:#2a1a10;box-shadow:0 4px 14px rgba(58,19,6,.15);animation:rise .45s both;animation-delay:var(--d,0ms)}
+.sp-card .em{font-size:42px;text-align:center;display:block;animation:bob 3s ease-in-out infinite;animation-delay:var(--b,0ms)}
+.sp-card b{font-size:14px;line-height:1.25;flex:1}
+.sp-card .price{color:#b8325f}
+.card .star{position:absolute;right:10px;top:10px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:linear-gradient(90deg,#ffd166,#ff9a5c);color:#3a1306}
+@keyframes shimmer{0%,40%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+/* ===== Order again ===== */
+.again{display:flex;gap:12px;align-items:center;background:var(--surface);border:1.5px dashed var(--accent);border-radius:16px;padding:12px 14px;margin-bottom:16px;animation:rise .4s both}
+.again .em{font-size:28px;animation:spinOnce 2.5s ease-in-out infinite}
+.again .info{flex:1;min-width:0}
+.again small{display:block;color:var(--muted);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes spinOnce{0%,70%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+/* ===== Eggless, photo, zones ===== */
+.eggless{display:flex;align-items:center;gap:6px;font-size:13px;margin-top:8px;cursor:pointer}
+.eggless input,.check input{accent-color:var(--accent);width:18px;height:18px}
+.check{display:flex;gap:8px;align-items:center;font-weight:500;margin-bottom:12px;cursor:pointer}
+.photo-field{margin-bottom:12px}
+.photo-field > span{display:block;font-size:14px;font-weight:500;margin-bottom:4px}
+.photo-drop{display:flex;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--border);border-radius:12px;padding:16px;cursor:pointer;color:var(--muted);background:var(--bg);transition:border-color .2s}
+.photo-drop:hover{border-color:var(--accent)}
+.photo-drop input{position:absolute;opacity:0;width:1px;height:1px}
+#photoPrev{display:flex;align-items:center;gap:12px}
+#photoPrev img{width:76px;height:76px;object-fit:cover;border-radius:12px;box-shadow:var(--shadow);animation:pop .4s}
+#photoPrev > div{flex:1}
+.ed-zone{grid-template-columns:1fr 1fr 110px 40px}
+.star-t{background:none;border:1px solid var(--border);border-radius:8px;height:38px;cursor:pointer;font-size:18px;color:#e09a1a}
+.star-t[aria-pressed="true"]{background:#fff3d1;border-color:#e0b04a}
+.ed-menu{grid-template-columns:40px 56px 1fr 130px 110px 40px;grid-template-areas:"star emo nm cat pr del" ". . desc desc desc ."}
+.ed-menu .star-t{grid-area:star}
+pre.code{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:11.5px;overflow:auto;max-height:220px;white-space:pre}
+details.steps summary{cursor:pointer;font-weight:600;color:var(--accent);margin:4px 0 8px}
+details.steps ol{padding-left:20px;font-size:14px;margin:0 0 10px}
+@media (max-width:620px){
+  .ed-zone{grid-template-columns:1fr 62px 40px;grid-template-areas:"nm nm del" "pins pr pr"}
+  .ed-zone .nm{grid-area:nm}.ed-zone .pins{grid-area:pins}.ed-zone .pr{grid-area:pr}.ed-zone .del{grid-area:del}
+  .ed-menu{grid-template-columns:40px 48px 1fr 62px 40px;grid-template-areas:"star emo nm nm del" "cat cat cat pr pr" "desc desc desc desc desc"}
+  .card .star{font-size:9.5px;padding:2px 6px;right:8px;top:8px}
+}
+dialog.dlg,dialog#pinDlg{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:16px;padding:20px;width:calc(100% - 32px);max-width:340px;box-shadow:var(--shadow)}
+dialog.dlg::backdrop,dialog#pinDlg::backdrop{background:rgba(10,25,19,.55)}
+dialog#pinDlg input{text-align:center;font-size:22px;letter-spacing:.4em;margin-top:10px}
+.savebar{position:sticky;bottom:72px;display:flex;gap:10px;flex-wrap:wrap;background:var(--bg);padding:12px 0}
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <button class="gear" id="openSettings" aria-label="Shop settings" title="Shop settings">⚙️</button>
+  <div class="decor" aria-hidden="true"><span>🧁</span><span>🍓</span><span>🍪</span><span>🍰</span><span>✨</span><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="logo" aria-hidden="true">🎂</div>
+  <h1 id="bizName">Faith Cakes & Bakes</h1>
+  <p id="tagline">Homemade cakes, cupcakes and treats, baked fresh to order.</p>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <div class="wrap" role="tablist">
+    <button role="tab" data-tab="menu" aria-selected="true"><span class="ti" aria-hidden="true">🍰</span>Menu</button>
+    <button role="tab" data-tab="custom" aria-selected="false"><span class="ti" aria-hidden="true">🎂</span>Custom cake</button>
+    <button role="tab" data-tab="cart" aria-selected="false"><span class="ti" aria-hidden="true">🛒</span>Order<span id="tabCount" class="tbadge"></span></button>
+    <button role="tab" data-tab="info" aria-selected="false"><span class="ti" aria-hidden="true">ℹ️</span>Info</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <!-- MENU -->
+  <section class="panel" id="panel-menu">
+    <div id="againMenu"></div>
+    <section class="specials" id="specials" hidden aria-labelledby="spTitle">
+      <div class="sp-decor" aria-hidden="true"><span>🪔</span><span>✨</span><span>🎉</span></div>
+      <div class="sp-head"><h2 id="spTitle"></h2><p id="spSub"></p></div>
+      <div class="sp-row" id="spRow"></div>
+    </section>
+    <div class="chips" id="cats"></div>
+    <div class="grid" id="menuGrid"></div>
+  </section>
+
+  <!-- CUSTOM CAKE -->
+  <section class="panel" id="panel-custom" hidden>
+    <div class="builder">
+      <form id="builder" onsubmit="return false">
+        <fieldset><legend>Size</legend><div class="opts" data-group="size"></div></fieldset>
+        <fieldset><legend>Tiers</legend><div class="opts" data-group="tiers"></div></fieldset>
+        <fieldset><legend>Sponge flavour</legend><div class="opts" data-group="flavour"></div></fieldset>
+        <fieldset><legend>Filling</legend><div class="opts" data-group="filling"></div></fieldset>
+        <fieldset><legend>Frosting</legend><div class="opts" data-group="frosting"></div></fieldset>
+        <fieldset><legend>Extras</legend><div class="opts" data-group="extras" data-multi="1"></div></fieldset>
+        <fieldset>
+          <legend>Personal touch</legend>
+          <label class="field">Message on cake
+            <input type="text" id="cakeMsg" maxlength="40" placeholder="e.g. Happy Birthday Grace!">
+          </label>
+          <label class="check" id="cakeEggWrap"><input type="checkbox" id="cakeEgg"> <span>🌱 Make it eggless <small class="note" id="cakeEggFee"></small></span></label>
+          <label class="field">Theme or colour notes
+            <input type="text" id="cakeTheme" maxlength="80" placeholder="e.g. pastel pink with gold accents">
+          </label>
+        </fieldset>
+      </form>
+      <aside class="summary" aria-live="polite">
+        <div class="cake" id="cakeEmoji">🎂</div>
+        <h3>Your cake</h3>
+        <ul id="cakeSummary"></ul>
+        <div class="row"><span class="note">Estimated price</span><span class="total" id="cakeTotal"></span></div>
+        <button class="btn" style="width:100%;margin-top:12px" id="addCake">Add to order</button>
+        <p class="note" style="margin:10px 0 0">Final price confirmed after we review your design.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- CART -->
+  <section class="panel" id="panel-cart" hidden>
+    <div class="row" style="margin-bottom:14px"><h2>Your order</h2><button type="button" class="btn ghost small" id="clearCart" hidden>Clear order</button></div>
+    <div class="cart-list" id="cartList"></div>
+    <div id="checkout">
+      <div class="totals">
+        <div class="row"><span>Subtotal</span><span id="subTotal"></span></div>
+        <div class="row" id="delivRow"><span>Delivery</span><span id="delivFee"></span></div>
+        <div class="row" style="font-weight:600;font-size:18px;margin-top:6px"><span>Total</span><span id="grandTotal"></span></div>
+      </div>
+      <p class="note" style="margin:-4px 0 14px">Order ID: <span class="pill" id="orderIdText"></span></p>
+      <form id="orderForm" onsubmit="return false">
+        <div class="two">
+          <label class="field">Your name<input type="text" id="custName" required autocomplete="name"></label>
+          <label class="field">Phone<input type="tel" id="custPhone" required autocomplete="tel"></label>
+        </div>
+        <div class="two">
+          <label class="field">Pickup / delivery date<input type="date" id="custDate" required></label>
+          <label class="field">How do you want it?
+            <select id="custMode"><option value="pickup">Pickup</option><option value="delivery">Delivery</option></select>
+          </label>
+        </div>
+        <label class="field" id="addrField" hidden>Delivery address<input type="text" id="custAddr" autocomplete="street-address"></label>
+        <div class="two" id="zoneFields" hidden>
+          <label class="field">Pincode<input type="text" id="custPin" inputmode="numeric" maxlength="6" autocomplete="postal-code" placeholder="6-digit pincode"></label>
+          <label class="field">Delivery area<select id="custArea"></select></label>
+        </div>
+        <p class="note" id="zoneNote" hidden style="margin:-4px 0 12px"></p>
+        <div class="photo-field">
+          <span>📷 Reference photo of the design (optional)</span>
+          <label class="photo-drop" id="photoDrop"><input type="file" id="refPhoto" accept="image/*"> ➕ Add a photo of the cake you'd like</label>
+          <div id="photoPrev"></div>
+        </div>
+        <label class="field">Notes (allergies, special requests)<textarea id="custNotes"></textarea></label>
+        <div class="pay" id="payBox">
+          <h3>💳 Payment</h3>
+          <div class="opts" id="payChoice"></div>
+          <div class="totals">
+            <div class="row"><span>Order total</span><span id="payTotal"></span></div>
+            <div class="row"><span id="payNowLabel">Pay now</span><span class="now" id="payNow"></span></div>
+            <div class="row"><span id="balLabel">Balance due</span><span id="payBal"></span></div>
+          </div>
+          <div id="upiBox">
+            <a class="btn upi-btn" id="upiPay" href="#">📲 Pay <span id="upiAmt"></span> with UPI app</a>
+            <p class="note" style="text-align:center;margin:6px 0 0">Opens Google Pay, PhonePe, Paytm or any UPI app on your phone.</p>
+            <div class="qr-wrap" id="qrWrap"><div id="upiQr" role="img" aria-label="UPI payment QR code"></div><span class="note">Or scan this QR code with any UPI app</span></div>
+            <div class="row upi-id"><span>UPI ID: <b id="upiIdText"></b><br><span class="note" id="upiNameText"></span></span><button type="button" class="btn ghost small" id="copyUpi">Copy</button></div>
+            <label class="field">UPI transaction ID (UTR / reference no.)
+              <input type="text" id="custUtr" maxlength="30" autocomplete="off" placeholder="From your UPI app after paying">
+            </label>
+            <p class="note" style="margin:0">After paying, enter the transaction ID so we can match your payment. Your order is confirmed once we receive it.</p>
+          </div>
+          <p class="note" id="upiMissing" hidden>Online payment isn't set up yet. We'll share payment details when we confirm your order.</p>
+        </div>
+        <p class="note" id="leadNote"></p>
+        <p class="note" id="waWarn" hidden style="color:var(--danger)">⚠️ The shop's WhatsApp number isn't set yet. The owner can add it in ⚙️ Shop settings.</p>
+        <div class="actions">
+          <button class="btn" id="sendWa">Send order on WhatsApp</button>
+          <button class="btn ghost" id="sendMail">Send by email</button>
+          <button class="btn ghost" id="copyOrder">Copy order text</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- INFO -->
+  <section class="panel" id="panel-info" hidden>
+    <div class="info-grid">
+      <div class="card"><h3>📍 Find us</h3><p id="infoAddr"></p></div>
+      <div class="card"><h3>🕘 Hours</h3><p id="infoHours"></p></div>
+      <div class="card"><h3>📞 Contact</h3><p id="infoContact"></p></div>
+      <div class="card"><h3>📝 Ordering</h3><p id="infoPolicy"></p></div>
+    </div>
+  </section>
+
+  <!-- SETTINGS (shop owner) -->
+  <section class="panel" id="panel-settings" hidden>
+    <h2 style="margin-bottom:6px">Shop settings</h2>
+    <p class="note" style="margin:0 0 16px">Changes are saved on this device only. To show them to customers, tap <b>Download updated app</b>, then upload that <code>index.html</code> to your GitHub repository (replacing the old one). The live site updates in a minute or two.</p>
+
+    <div class="set-sec">
+      <h3>UPI payments & advance</h3>
+      <p class="note">Customers pay to this UPI ID by app or QR code. Check your UPI app to confirm each payment; the app can't verify payments itself.</p>
+      <div class="two">
+        <label class="field">UPI ID<input type="text" data-k="upiId" placeholder="e.g. faithcakes@okaxis" autocomplete="off"></label>
+        <label class="field">Name on UPI account<input type="text" data-k="upiName" placeholder="As shown in your UPI app"></label>
+      </div>
+      <label class="field">Advance required (% of total)
+        <input type="number" min="0" max="100" step="5" data-k="advancePercent" data-num="1">
+      </label>
+      <p class="note" style="margin:0">0 = no advance (customer may pay now or later) · 100 = full payment when ordering.</p>
+    </div>
+
+    <div class="set-sec">
+      <h3>WhatsApp orders</h3>
+      <p class="note">Orders are sent to this number. Enter a 10-digit Indian mobile number; 91 is added automatically.</p>
+      <label class="field">WhatsApp number
+        <input type="tel" id="s-whatsapp" placeholder="e.g. 98765 43210" inputmode="tel">
+      </label>
+      <p class="note" id="waPreview" style="margin:0"></p>
+      <button class="btn ghost" id="testWa" style="margin-top:10px">Send test message</button>
+    </div>
+
+    <div class="set-sec">
+      <h3>Shop details</h3>
+      <div class="two">
+        <label class="field">Shop name<input type="text" data-k="name"></label>
+        <label class="field">Currency symbol<input type="text" data-k="currency" maxlength="4"></label>
+      </div>
+      <label class="field">Tagline<input type="text" data-k="tagline"></label>
+      <div class="two">
+        <label class="field">Email (optional)<input type="email" data-k="email"></label>
+        <label class="field">Phone shown to customers<input type="text" data-k="phoneDisplay"></label>
+      </div>
+      <div class="two">
+        <label class="field">Flat delivery fee (if no areas set)<input type="number" min="0" step="1" data-k="deliveryFee" data-num="1"></label>
+        <label class="field">Minimum notice (days)<input type="number" min="0" step="1" data-k="leadDays" data-num="1"></label>
+      </div>
+      <label class="field">Address<textarea data-k="address"></textarea></label>
+      <label class="field">Opening hours<textarea data-k="hours"></textarea></label>
+      <label class="field">Ordering policy<textarea data-k="policy"></textarea></label>
+    </div>
+
+    <div class="set-sec">
+      <h3>Delivery areas & charges</h3>
+      <p class="note">Customers choose their area, or type a pincode to pick it automatically. Separate pincodes with commas. With no areas, the flat delivery fee above is used.</p>
+      <div id="edZones"></div>
+      <button class="btn ghost" id="addZone" style="margin-top:10px">+ Add delivery area</button>
+    </div>
+
+    <div class="set-sec">
+      <h3>🌱 Eggless option</h3>
+      <label class="check"><input type="checkbox" data-k="egglessOn"> Offer eggless on all items</label>
+      <label class="field">Extra charge per item for eggless<input type="number" min="0" step="1" data-k="egglessFee" data-num="1"></label>
+    </div>
+
+    <div class="set-sec">
+      <h3>🪔 Festival specials</h3>
+      <p class="note">A highlighted section at the top of the menu. Tap ☆ next to menu items below to feature them.</p>
+      <label class="check"><input type="checkbox" data-k="specialsOn"> Show the specials section</label>
+      <label class="field">Heading<input type="text" data-k="specialsTitle" placeholder="e.g. Diwali Specials 🪔"></label>
+      <label class="field">Subheading<input type="text" data-k="specialsSub" placeholder="e.g. Festive treats, baked fresh"></label>
+    </div>
+
+    <div class="set-sec">
+      <h3>Menu items & prices</h3>
+      <p class="note">☆ feature in specials · emoji · name · category · price · description. Items with the same category are grouped together.</p>
+      <div id="edMenu"></div>
+      <button class="btn ghost" id="addItem" style="margin-top:10px">+ Add menu item</button>
+    </div>
+
+    <div class="set-sec">
+      <h3>Custom cake prices</h3>
+      <p class="note">The cake price is the sum of every option chosen. Size sets the base price; other options add to it.</p>
+      <div id="edBuilder"></div>
+    </div>
+
+    <div class="set-sec">
+      <h3>📊 Order log (Google Sheet)</h3>
+      <p class="note">Every order sent from any customer's phone is added as a row in your Google Sheet. Free, takes about 5 minutes to set up.</p>
+      <label class="field">Google Sheet web app URL<input type="url" data-k="sheetUrl" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off"></label>
+      <details class="steps">
+        <summary>How to set it up</summary>
+        <ol>
+          <li>Create a new Google Sheet (sheets.new).</li>
+          <li>Open <b>Extensions → Apps Script</b>.</li>
+          <li>Delete the code there, paste the code below, and click <b>Save</b>.</li>
+          <li>Click <b>Deploy → New deployment</b>, choose type <b>Web app</b>. Set <b>Execute as: Me</b> and <b>Who has access: Anyone</b>. Click <b>Deploy</b> and allow access.</li>
+          <li>Copy the <b>Web app URL</b> (ends in <code>/exec</code>), paste it above, and tap <b>Save changes</b>.</li>
+          <li>Tap <b>Send test row</b> and check the sheet's “Orders” tab.</li>
+        </ol>
+        <pre class="code" id="sheetCode"></pre>
+        <button type="button" class="btn ghost small" id="copySheetCode">Copy code</button>
+      </details>
+      <button type="button" class="btn ghost" id="testSheet" style="margin-top:10px">Send test row</button>
+    </div>
+
+    <div class="set-sec">
+      <h3>Settings PIN</h3>
+      <p class="note">Asked for whenever the ⚙️ button is tapped. Use 4–6 digits.</p>
+      <div class="two">
+        <label class="field">New PIN<input type="password" id="newPin1" inputmode="numeric" maxlength="6" autocomplete="new-password"></label>
+        <label class="field">Confirm new PIN<input type="password" id="newPin2" inputmode="numeric" maxlength="6" autocomplete="new-password"></label>
+      </div>
+      <div class="actions">
+        <button class="btn ghost" id="changePin">Change PIN</button>
+        <button class="btn ghost" id="lockNow">🔒 Lock settings now</button>
+      </div>
+    </div>
+
+    <div class="savebar">
+      <button class="btn" id="saveSettings">Save changes</button>
+      <button class="btn ghost" id="exportApp">Download updated app</button>
+      <button class="btn ghost" id="resetSettings" style="color:var(--danger);border-color:var(--danger)">Reset to defaults</button>
+    </div>
+  </section>
+</main>
+
+<div class="cartbar"><div class="wrap">
+  <span id="barText">Your order is empty</span>
+  <button class="btn" id="barBtn">View order</button>
+</div></div>
+<div class="toast" id="toast" role="status"></div>
+<dialog id="photoDlg" class="dlg" aria-labelledby="photoTitle">
+  <h3 id="photoTitle">📷 Now send your design photo</h3>
+  <p class="note" style="margin:8px 0">WhatsApp can't attach a photo from a link, so send it as a second message:</p>
+  <ol class="note" style="padding-left:20px;margin:0 0 14px"><li>Tap <b>Share photo</b></li><li>Choose <b>WhatsApp</b>, then the shop's chat</li></ol>
+  <p class="note" id="photoNoShare" hidden style="margin:0 0 14px">Sharing isn't available in this browser. Tap <b>Save photo</b>, then attach it in the WhatsApp chat.</p>
+  <div class="actions" style="justify-content:flex-end">
+    <button type="button" class="btn ghost" id="photoClose">Close</button>
+    <a class="btn ghost" id="photoSave" style="text-decoration:none">Save photo</a>
+    <button type="button" class="btn" id="photoShare">Share photo</button>
+  </div>
+</dialog>
+<dialog id="sendDlg" class="dlg" aria-labelledby="sendTitle">
+  <h3 id="sendTitle"></h3>
+  <p class="note" id="sendMsg" style="margin:8px 0 14px"></p>
+  <textarea id="sendText" hidden readonly style="width:100%;min-height:120px;margin-bottom:10px"></textarea>
+  <div class="actions" style="justify-content:flex-end">
+    <button type="button" class="btn ghost" id="sendClose">Close</button>
+    <button type="button" class="btn ghost" id="sendCopy">Copy order</button>
+    <a class="btn" id="waLink" target="_blank" rel="noopener" style="text-decoration:none">Open WhatsApp</a>
+  </div>
+</dialog>
+<dialog id="pinDlg" aria-labelledby="pinTitle">
+  <form id="pinForm">
+    <h3 id="pinTitle"></h3>
+    <p class="note" id="pinMsg" style="margin:6px 0 0"></p>
+    <input type="password" id="pin1" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="PIN">
+    <input type="password" id="pin2" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="Confirm PIN" placeholder="confirm">
+    <p class="note" id="pinErr" role="alert" style="color:var(--danger);min-height:1.5em;margin:8px 0"></p>
+    <div class="actions" style="justify-content:flex-end">
+      <button type="button" class="btn ghost" id="pinCancel">Cancel</button>
+      <button type="submit" class="btn" id="pinOk"></button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+// Snapshot of the untouched page, used by "Download updated app".
+const ORIGINAL_HTML = "<!doctype html>\n" + document.documentElement.outerHTML;
+
+/* Shop defaults. Edit here, or use the ⚙️ Shop settings screen in the app. */
+const DEFAULTS = /*CONFIG-START*/{
+  name: "Faith Cakes & Bakes",
+  tagline: "Homemade cakes, cupcakes and treats, baked fresh to order.",
+  currency: "₹",              // e.g. "₹", "£", "€", "KSh "
+  whatsapp: "",               // international format, digits only, e.g. "15551234567"
+  email: "",                  // e.g. "orders@example.com"
+  address: "Add your address or pickup area here.",
+  hours: "Mon–Sat: 9am – 6pm\nSunday: closed",
+  phoneDisplay: "Add your phone number here.",
+  policy: "Please order custom cakes at least 3 days in advance. A deposit may be required to confirm.",
+  leadDays: 3,                // minimum notice for orders
+  deliveryFee: 80,
+  upiId: "",                  // e.g. "faithcakes@okaxis"
+  upiName: "Faith Cakes & Bakes",
+  advancePercent: 50,         // % of total paid when ordering; 0 = none, 100 = full
+  pinHash: "",                // set from the app; leave empty to be asked to create one
+  egglessOn: true,
+  egglessFee: 50,             // extra per item
+  zones: [                    // delivery areas: pins = pincodes separated by commas
+    {name: "Nearby (within 3 km)", pins: "", fee: 50},
+    {name: "City (3–8 km)",        pins: "", fee: 100},
+    {name: "Outskirts (8–15 km)",  pins: "", fee: 180},
+  ],
+  specialsOn: true,
+  specialsTitle: "Diwali Specials 🪔",
+  specialsSub: "Festive treats, baked fresh for the celebrations",
+  sheetUrl: "",               // Google Apps Script web app URL for the order log
+
+  menu: [
+    {cat:"Cakes",    emoji:"🍰", name:"Classic Vanilla Cake",    desc:"Light vanilla sponge with buttercream. 8-inch.", price:650},
+    {cat:"Cakes",    emoji:"🎂", name:"Chocolate Fudge Cake",    desc:"Rich chocolate layers with fudge frosting. 8-inch.", price:750},
+    {cat:"Cakes",    emoji:"❤️", name:"Red Velvet Cake",         desc:"Soft red velvet with cream cheese frosting. 8-inch.", price:850, special:true},
+    {cat:"Cakes",    emoji:"🍋", name:"Lemon Drizzle Loaf",      desc:"Zesty lemon loaf with a sugar glaze.", price:350},
+    {cat:"Cupcakes", emoji:"🧁", name:"Cupcakes (box of 6)",     desc:"Mix of vanilla, chocolate and red velvet.", price:300},
+    {cat:"Cupcakes", emoji:"🧁", name:"Cupcakes (box of 12)",    desc:"Choose your flavours in the order notes.", price:550},
+    {cat:"Cookies",  emoji:"🍪", name:"Chocolate Chip Cookies",  desc:"Chewy cookies, dozen.", price:250},
+    {cat:"Cookies",  emoji:"🍪", name:"Decorated Sugar Cookies", desc:"Iced to your theme, dozen.", price:450, special:true},
+    {cat:"Bakes",    emoji:"🍞", name:"Banana Bread",            desc:"Moist loaf with walnuts.", price:300},
+    {cat:"Bakes",    emoji:"🥧", name:"Apple Pie",               desc:"Buttery crust, cinnamon apples. 9-inch.", price:500},
+    {cat:"Bakes",    emoji:"🍫", name:"Fudge Brownies (box of 9)", desc:"Dense and gooey.", price:400, special:true},
+  ],
+
+  // Custom cake builder. `add` is added to the price; size sets the base.
+  builder: {
+    size:     [{v:"6-inch (8–10 servings)", add:450}, {v:"8-inch (12–16 servings)", add:700}, {v:"10-inch (20–25 servings)", add:1100}, {v:"12-inch (30–40 servings)", add:1600}],
+    tiers:    [{v:"1 tier", add:0}, {v:"2 tiers", add:900}, {v:"3 tiers", add:2000}],
+    flavour:  [{v:"Vanilla", add:0}, {v:"Chocolate", add:0}, {v:"Red velvet", add:100}, {v:"Lemon", add:0}, {v:"Carrot", add:100}, {v:"Marble", add:50}],
+    filling:  [{v:"Buttercream", add:0}, {v:"Chocolate ganache", add:100}, {v:"Strawberry jam", add:60}, {v:"Salted caramel", add:120}, {v:"Lemon curd", add:80}],
+    frosting: [{v:"Buttercream", add:0}, {v:"Cream cheese", add:100}, {v:"Whipped cream", add:50}, {v:"Fondant", add:400}, {v:"Naked / semi-naked", add:0}],
+    extras:   [{v:"Fresh flowers", add:250}, {v:"Fresh fruit", add:150}, {v:"Edible photo print", add:200}, {v:"Gold leaf", add:300}, {v:"Sprinkles", add:50}, {v:"Topper", add:150}],
+  }
+}/*CONFIG-END*/;
+
+const $ = s => document.querySelector(s);
+const money = n => CONFIG.currency + Number(n || 0).toLocaleString("en-IN", {maximumFractionDigits: 2});
+const esc = s => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); return JSON.stringify(v) === localStorage.getItem(k); }catch(e){ return false; } }
+};
+// Settings saved on this device override the defaults above.
+const CONFIG = Object.assign(JSON.parse(JSON.stringify(DEFAULTS)), store.get("fcb-config", {}));
+
+let cart = store.get("fcb-cart", []);
+let activeCat = "All";
+
+/* --- header & info --- */
+const nl = s => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\n/g,"<br>");
+function applyShopInfo(){
+document.title = CONFIG.name;
+$("#bizName").textContent = CONFIG.name;
+$("#tagline").textContent = CONFIG.tagline;
+$("#infoAddr").innerHTML = nl(CONFIG.address);
+$("#infoHours").innerHTML = nl(CONFIG.hours);
+$("#infoContact").innerHTML = nl(CONFIG.phoneDisplay + (CONFIG.email ? "\n" + CONFIG.email : ""));
+$("#infoPolicy").innerHTML = nl(CONFIG.policy);
+}
+applyShopInfo();
+function updateEggUI(){
+  $("#cakeEggWrap").hidden = !CONFIG.egglessOn;
+  $("#cakeEggFee").textContent = eggFee() ? `(+${money(eggFee())})` : "";
+}
+
+/* --- tabs --- */
+const tabs = document.querySelectorAll('[role="tab"]');
+function showTab(name){
+  tabs.forEach(t => t.setAttribute("aria-selected", t.dataset.tab === name));
+  document.querySelectorAll("section.panel").forEach(p => p.hidden = p.id !== "panel-" + name);
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+tabs.forEach(t => t.onclick = () => showTab(t.dataset.tab));
+$("#barBtn").onclick = () => showTab("cart");
+
+/* --- toast --- */
+let toastT;
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 1800); }
+
+/* --- menu --- */
+const reduceMotion = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+function replay(el, cls){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); setTimeout(() => el.classList.remove(cls), 700); }
+function flyToCart(fromEl, emoji){
+  const bar = $("#barBtn");
+  if (reduceMotion() || !fromEl || !bar.animate) return;
+  const a = fromEl.getBoundingClientRect(), z = bar.getBoundingClientRect();
+  const f = document.createElement("span");
+  f.className = "flyer"; f.textContent = emoji;
+  f.style.left = a.left + "px"; f.style.top = a.top + "px";
+  document.body.appendChild(f);
+  const dx = z.left + z.width / 2 - a.left - a.width / 2, dy = z.top + z.height / 2 - a.top - a.height / 2;
+  f.animate([
+    {transform: "translate(0,0) scale(1)", opacity: 1},
+    {transform: `translate(${dx * .5}px,${dy * .5 - 120}px) scale(1.15) rotate(-15deg)`, opacity: 1, offset: .5},
+    {transform: `translate(${dx}px,${dy}px) scale(.3) rotate(20deg)`, opacity: .2}
+  ], {duration: 700, easing: "cubic-bezier(.5,0,.6,1)"}).onfinish = () => f.remove();
+}
+function renderMenu(){
+  const cats = ["All", ...new Set(CONFIG.menu.map(m => m.cat))];
+  $("#cats").innerHTML = cats.map(c => `<button class="chip" aria-pressed="${c===activeCat}" data-c="${esc(c)}">${esc(c)}</button>`).join("");
+  $("#cats").querySelectorAll(".chip").forEach(b => b.onclick = () => { activeCat = b.dataset.c; renderMenu(); });
+  const catIdx = c => cats.indexOf(c) % 5;
+  let n = 0;
+  $("#menuGrid").innerHTML = CONFIG.menu.map((m, i) => (activeCat === "All" || m.cat === activeCat) ? `
+    <article class="card" style="--d:${Math.min(n++, 12) * 55}ms;--b:${(i * 370) % 2400}ms;--tint:var(--t${catIdx(m.cat)})">
+      <div class="art"><span class="tag">${esc(m.cat)}</span>${m.special && CONFIG.specialsOn ? `<span class="star">★ Special</span>` : ""}<span class="em" aria-hidden="true">${esc(m.emoji)}</span></div>
+      <div class="body">
+        <h3>${esc(m.name)}</h3><p>${esc(m.desc)}</p>
+        <div class="row"><span class="price">${money(m.price)}</span><button class="btn add-btn" data-i="${i}" aria-label="Add ${esc(m.name)}"><b>+</b><span>Add</span></button></div>
+      </div>
+    </article>` : "").join("");
+  const sp = CONFIG.specialsOn ? CONFIG.menu.map((m, i) => ({m, i})).filter(o => o.m.special) : [];
+  $("#specials").hidden = !sp.length || activeCat !== "All";
+  $("#spTitle").textContent = CONFIG.specialsTitle || "Specials";
+  $("#spSub").textContent = CONFIG.specialsSub || "";
+  $("#spRow").innerHTML = sp.map(({m, i}, k) => `
+    <div class="sp-card" style="--d:${k * 70}ms;--b:${k * 450}ms">
+      <span class="em" aria-hidden="true">${esc(m.emoji)}</span><b>${esc(m.name)}</b>
+      <div class="row"><span class="price">${money(m.price)}</span><button class="btn add-btn" data-i="${i}" aria-label="Add ${esc(m.name)}"><b>+</b></button></div>
+    </div>`).join("");
+  document.querySelectorAll("#menuGrid button[data-i], #spRow button[data-i]").forEach(b => b.onclick = () => {
+    const m = CONFIG.menu[+b.dataset.i];
+    flyToCart(b.closest(".card, .sp-card").querySelector(".em"), m.emoji);
+    b.classList.remove("done"); void b.offsetWidth; b.classList.add("done");
+    addToCart({id: "m" + b.dataset.i, emoji: m.emoji, name: m.name, cat: m.cat, detail: "", price: m.price});
+  });
+  $("#menuGrid").querySelectorAll(".em").forEach(e => e.onclick = () => replay(e, "wiggle"));
+}
+
+/* --- builder --- */
+function buildOptions(){
+document.querySelectorAll("[data-group]").forEach(box => {
+  const g = box.dataset.group, multi = !!box.dataset.multi;
+  box.innerHTML = CONFIG.builder[g].map((o, i) => `
+    <label class="opt"><input type="${multi ? "checkbox" : "radio"}" name="${g}" value="${i}" ${!multi && i === (g==="size"?1:0) ? "checked" : ""}>
+    <span>${esc(o.v)}${o.add ? ` <small>+${money(o.add)}</small>` : ""}</span></label>`).join("");
+});
+}
+buildOptions();
+function readCake(){
+  const pick = g => CONFIG.builder[g][+document.querySelector(`input[name="${g}"]:checked`).value];
+  const extras = [...document.querySelectorAll('input[name="extras"]:checked')].map(i => CONFIG.builder.extras[+i.value]);
+  const c = {size: pick("size"), tiers: pick("tiers"), flavour: pick("flavour"), filling: pick("filling"), frosting: pick("frosting"), extras,
+             msg: $("#cakeMsg").value.trim(), theme: $("#cakeTheme").value.trim(), eggless: !!CONFIG.egglessOn && $("#cakeEgg").checked};
+  c.price = [c.size, c.tiers, c.flavour, c.filling, c.frosting, ...extras].reduce((s, o) => s + o.add, 0);
+  return c;
+}
+function renderCake(){
+  const c = readCake();
+  const lines = [c.size.v, c.tiers.v, c.flavour.v + " sponge", c.filling.v + " filling", c.frosting.v + " frosting"];
+  if (c.extras.length) lines.push("Extras: " + c.extras.map(e => e.v).join(", "));
+  if (c.msg) lines.push(`Message: “${c.msg}”`);
+  if (c.theme) lines.push("Theme: " + c.theme);
+  if (c.eggless) lines.push("🌱 Eggless");
+  $("#cakeSummary").innerHTML = lines.map(l => `<li>${nl(l)}</li>`).join("");
+  $("#cakeTotal").textContent = money(c.price + (c.eggless ? eggFee() : 0));
+  $("#cakeEmoji").textContent = c.tiers.v.startsWith("3") ? "🎂🎂🎂" : c.tiers.v.startsWith("2") ? "🎂🎂" : "🎂";
+  if (renderCake.ready) replay($("#cakeEmoji"), "pop");
+  renderCake.ready = true;
+}
+$("#builder").addEventListener("input", renderCake);
+$("#addCake").onclick = () => {
+  const c = readCake();
+  const detail = [c.size.v, c.tiers.v, c.flavour.v, c.filling.v + " filling", c.frosting.v + " frosting",
+    c.extras.length ? "extras: " + c.extras.map(e => e.v).join(", ") : "", c.theme ? "theme: " + c.theme : ""]
+    .filter(Boolean).join(" · ");
+  flyToCart($("#cakeEmoji"), "🎂");
+  addToCart({id: "c" + Date.now(), emoji: "🎂", name: "Custom cake", detail, price: c.price, custom: true, cakeMsg: c.msg, eggless: c.eggless});
+};
+
+/* --- cart --- */
+function addToCart(item){
+  const existing = !item.custom && cart.find(x => x.id === item.id);
+  if (existing) existing.qty++; else cart.push({...item, qty: 1});
+  save(); toast(item.name + " added");
+  setTimeout(() => { replay($(".cartbar"), "bump"); replay($("#tabCount"), "bump"); }, reduceMotion() ? 0 : 600);
+}
+function save(){ store.set("fcb-cart", cart); renderCart(); }
+const eggFee = () => CONFIG.egglessOn ? Math.max(0, Number(CONFIG.egglessFee) || 0) : 0;
+const isEgg = x => !!(x.eggless && CONFIG.egglessOn);
+const unitPrice = x => x.price + (isEgg(x) ? eggFee() : 0);
+const subtotal = () => cart.reduce((s, x) => s + unitPrice(x) * x.qty, 0);
+// Cakes get a "what to write" box: custom cakes and items in a "cake" category (not cupcakes).
+const writable = x => x.custom || (/cake/i.test(x.cat || "") && !/cup ?cake/i.test(x.cat || ""));
+const isDelivery = () => $("#custMode").value === "delivery";
+const zones = () => (CONFIG.zones || []).filter(z => String(z.name || "").trim());
+function deliveryInfo(){
+  if (!isDelivery()) return {fee: 0, label: ""};
+  const Z = zones();
+  if (!Z.length) return {fee: Number(CONFIG.deliveryFee) || 0, label: ""};
+  const v = $("#custArea").value;
+  if (v === "") return {fee: 0, label: "", pending: true, unset: true};
+  if (v === "other") return {fee: 0, label: "Other area", pending: true};
+  const z = Z[+v] || {}; return {fee: Number(z.fee) || 0, label: z.name};
+}
+const delivFee = () => deliveryInfo().fee;
+function renderZones(){
+  const Z = zones(), sel = $("#custArea"), keep = sel.value;
+  sel.innerHTML = `<option value="">Select your area</option>` + Z.map((z, i) => `<option value="${i}">${esc(z.name)} · ${esc(money(z.fee))}</option>`).join("") + `<option value="other">Other / not sure (fee confirmed later)</option>`;
+  if ([...sel.options].some(o => o.value === keep)) sel.value = keep;
+  $("#zoneFields").hidden = !isDelivery() || !Z.length;
+}
+function matchPin(){
+  const pin = $("#custPin").value.replace(/\D/g, "").slice(0, 6), note = $("#zoneNote");
+  $("#custPin").value = pin;
+  if (pin.length < 6){ note.hidden = true; return; }
+  const Z = zones(), i = Z.findIndex(z => String(z.pins || "").split(/[\s,;]+/).includes(pin));
+  note.hidden = false;
+  if (i >= 0){ $("#custArea").value = String(i); note.textContent = `✓ We deliver to ${pin}: ${Z[i].name}, ${money(Z[i].fee)}`; note.style.color = "var(--ok)"; }
+  else { note.textContent = `We don't have a set fee for ${pin} yet. Choose your area, or “Other” and we'll confirm the fee.`; note.style.color = "var(--muted)"; }
+  renderCart();
+}
+function renderCart(){
+  const count = cart.reduce((s, x) => s + x.qty, 0);
+  $("#tabCount").textContent = count || "";
+  $("#barText").innerHTML = count ? `<span class="count">${count}</span>${count > 1 ? "items" : "item"} · <b>${esc(money(subtotal()))}</b>` : "Your order is empty 🧺";
+  $("#checkout").hidden = !count;
+  $("#waWarn").hidden = !!CONFIG.whatsapp;
+  $("#againMenu").innerHTML = count ? "" : againCard();
+  $("#clearCart").hidden = !count;
+  if (!count){ $("#cartList").innerHTML = againCard() + `<div class="empty">Nothing here yet. Add treats from the menu or design a custom cake.</div>`; return; }
+  $("#cartList").innerHTML = cart.map((x, i) => `
+    <div class="cart-item">
+      <div class="emoji" aria-hidden="true">${esc(x.emoji)}</div>
+      <div class="info"><strong>${nl(x.name)}</strong><small>${nl(x.detail)}</small><small>${money(unitPrice(x))} each${isEgg(x) ? " · 🌱 eggless" : ""}</small>
+        ${writable(x) ? `<label class="cake-write"><span>✍️ What to write on the cake</span><input type="text" data-msg="${i}" maxlength="50" value="${esc(x.cakeMsg || "")}" placeholder="e.g. Happy Birthday Riya! (leave blank for none)"></label>` : ""}
+        ${CONFIG.egglessOn ? `<label class="eggless"><input type="checkbox" data-egg="${i}" ${x.eggless ? "checked" : ""}> 🌱 Make it eggless${eggFee() ? ` (+${money(eggFee())} each)` : ""}</label>` : ""}</div>
+      <div class="qty">
+        <button aria-label="Decrease" data-d="${i}">−</button><span>${x.qty}</span><button aria-label="Increase" data-u="${i}">+</button>
+      </div>
+    </div>`).join("");
+  $("#cartList").querySelectorAll("[data-d]").forEach(b => b.onclick = () => { const x = cart[+b.dataset.d]; if (--x.qty <= 0) cart.splice(+b.dataset.d, 1); save(); });
+  $("#cartList").querySelectorAll("[data-u]").forEach(b => b.onclick = () => { cart[+b.dataset.u].qty++; save(); });
+  $("#cartList").querySelectorAll("[data-egg]").forEach(inp => inp.onchange = () => { cart[+inp.dataset.egg].eggless = inp.checked; save(); });
+  $("#cartList").querySelectorAll("[data-msg]").forEach(inp => inp.oninput = () => { cart[+inp.dataset.msg].cakeMsg = inp.value; store.set("fcb-cart", cart); });
+  const D = deliveryInfo();
+  $("#subTotal").textContent = money(subtotal());
+  $("#delivRow").hidden = !isDelivery();
+  $("#delivFee").textContent = D.unset ? "Choose area" : D.pending ? "To be confirmed" : money(D.fee);
+  $("#grandTotal").textContent = money(subtotal() + D.fee);
+  renderPay();
+}
+$("#custMode").onchange = () => { $("#addrField").hidden = !isDelivery(); renderZones(); renderCart(); };
+$("#custArea").onchange = () => renderCart();
+$("#custPin").oninput = matchPin;
+
+/* --- date: enforce lead time --- */
+const minD = new Date(); minD.setDate(minD.getDate() + CONFIG.leadDays);
+const iso = d => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+$("#custDate").min = iso(minD);
+$("#leadNote").textContent = `Orders need at least ${CONFIG.leadDays} days' notice. We'll message you to confirm the price and details.`;
+
+/* --- payment --- */
+const newOrderId = () => { const d = new Date(); return "FC" + String(d.getFullYear()).slice(2) + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0") + "-" + Math.floor(1000 + Math.random() * 9000); };
+let orderId = (() => { try { return sessionStorage.getItem("fcb-oid"); } catch(e){ return null; } })() || newOrderId();
+try { sessionStorage.setItem("fcb-oid", orderId); } catch(e){}
+let payMode = null;
+const advPct = () => Math.min(100, Math.max(0, Number(CONFIG.advancePercent) || 0));
+const upiReady = () => /^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(String(CONFIG.upiId || "").trim());
+function payPlan(){
+  const total = subtotal() + delivFee(), pct = advPct();
+  const modes = pct >= 100 ? ["full"] : pct > 0 ? ["advance", "full"] : ["full", "later"];
+  if (!modes.includes(payMode)) payMode = modes[0];
+  const advance = Math.ceil(total * pct / 100);
+  const now = payMode === "full" ? total : payMode === "advance" ? advance : 0;
+  return {total, pct, modes, advance, now, balance: total - now};
+}
+function upiUrl(amount){
+  const q = new URLSearchParams({pa: CONFIG.upiId.trim(), pn: CONFIG.upiName || CONFIG.name, am: amount.toFixed(2), cu: "INR", tn: "Order " + orderId});
+  return "upi://pay?" + q.toString().replace(/\+/g, "%20");
+}
+let lastQr = "";
+function renderPay(){
+  if (!cart.length) return;
+  const P = payPlan();
+  const labels = {advance: `Pay ${P.pct}% advance · ${money(P.advance)}`, full: `Pay full amount · ${money(P.total)}`, later: "Pay at pickup / delivery"};
+  const choice = $("#payChoice");
+  const html = P.modes.map(m => `<label class="opt"><input type="radio" name="payMode" value="${m}" ${m === payMode ? "checked" : ""}><span>${labels[m]}</span></label>`).join("");
+  if (choice.dataset.html !== html){ choice.innerHTML = html; choice.dataset.html = html; }
+  choice.hidden = P.modes.length < 2;
+  $("#payTotal").textContent = money(P.total);
+  $("#payNowLabel").textContent = payMode === "advance" ? `Advance now (${P.pct}%)` : "Pay now";
+  $("#payNow").textContent = money(P.now);
+  $("#balLabel").textContent = isDelivery() ? "Balance on delivery" : "Balance at pickup";
+  $("#payBal").textContent = money(P.balance);
+  $("#orderIdText").textContent = orderId;
+  const showUpi = upiReady() && P.now > 0;
+  $("#upiBox").hidden = !showUpi;
+  $("#upiMissing").hidden = upiReady() || P.now === 0;
+  if (!showUpi) return;
+  const url = upiUrl(P.now);
+  $("#upiPay").href = url;
+  $("#upiAmt").textContent = money(P.now);
+  $("#upiIdText").textContent = CONFIG.upiId.trim();
+  $("#upiNameText").textContent = CONFIG.upiName || "";
+  $("#qrWrap").hidden = !window.QRCode;
+  if (window.QRCode && url !== lastQr){
+    lastQr = url; $("#upiQr").innerHTML = "";
+    new QRCode($("#upiQr"), {text: url, width: 360, height: 360, correctLevel: QRCode.CorrectLevel.M});
+  }
+}
+$("#payChoice").addEventListener("change", e => { payMode = e.target.value; renderPay(); });
+$("#copyUpi").onclick = async () => { try { await navigator.clipboard.writeText(CONFIG.upiId.trim()); toast("UPI ID copied"); } catch(e){ toast("UPI ID: " + CONFIG.upiId); } };
+
+/* --- order text & sending --- */
+function orderText(){
+  const D = deliveryInfo(), P = payPlan();
+  const L = [`New order for ${CONFIG.name}`, `Order ID: ${orderId}`, ""];
+  cart.forEach(x => {
+    L.push(`• ${x.qty} × ${x.name}${isEgg(x) ? " (EGGLESS)" : ""} (${money(unitPrice(x) * x.qty)})`);
+    if (x.detail) L.push(`   ${x.detail}`);
+    if (writable(x)) L.push(`   ✍️ Write on cake: ${String(x.cakeMsg || "").trim() ? `“${x.cakeMsg.trim()}”` : "(nothing)"}`);
+  });
+  L.push("", `Subtotal: ${money(subtotal())}`);
+  if (isDelivery()) L.push(`Delivery${D.label ? ` (${D.label})` : ""}: ${D.pending ? "to be confirmed" : money(D.fee)}`);
+  L.push(`Total: ${money(P.total)}`);
+  const utr = $("#custUtr").value.trim();
+  if (P.now > 0){
+    L.push(`${payMode === "advance" ? `Advance (${P.pct}%)` : "Paying now"}: ${money(P.now)}`);
+    L.push(utr ? `✅ Paid by UPI · Transaction ID: ${utr}` : "⏳ Payment: not paid yet");
+  } else L.push("Payment: at pickup / delivery");
+  L.push(`Balance due: ${money(P.balance)}`, "",
+    `Name: ${$("#custName").value.trim()}`, `Phone: ${$("#custPhone").value.trim()}`,
+    `${isDelivery() ? "Delivery" : "Pickup"} date: ${$("#custDate").value}`);
+  if (isDelivery()){ L.push(`Address: ${$("#custAddr").value.trim()}`); const pin = $("#custPin").value.trim(); if (pin) L.push(`Pincode: ${pin}`); }
+  if (refPhoto) L.push("📷 Design photo: sending next in this chat");
+  const n = $("#custNotes").value.trim(); if (n) L.push(`Notes: ${n}`);
+  return L.join("\n");
+}
+function confirmUnpaid(){
+  const P = payPlan();
+  if (!upiReady() || P.now === 0 || $("#custUtr").value.trim()) return true;
+  return confirm(`You haven't entered a UPI transaction ID for the ${money(P.now)} payment.\n\nSend the order anyway? It will be confirmed once the shop receives the payment.`);
+}
+function valid(){
+  const f = $("#orderForm");
+  $("#custAddr").required = isDelivery();
+  $("#custArea").required = isDelivery() && zones().length > 0;
+  if (!f.checkValidity()){ f.reportValidity(); return false; }
+  return true;
+}
+$("#sendWa").onclick = () => {
+  if (!valid() || !confirmUnpaid()) return;
+  if (!CONFIG.whatsapp){ showSendHelp("nonumber"); return; }
+  const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(orderText())}`;
+  recordOrder();
+  let win = null;
+  try { win = window.open(url, "_blank"); } catch(e){}
+  if (win){ afterSend(); return; }
+  // Pop-ups blocked. In a normal browser tab, go to WhatsApp directly; inside a preview frame, offer a link.
+  let framed = true; try { framed = window.self !== window.top; } catch(e){}
+  if (!framed){ location.href = url; return; }
+  showSendHelp("blocked", url);
+};
+function showSendHelp(kind, url){
+  $("#sendText").hidden = true;
+  if (kind === "nonumber"){
+    $("#sendTitle").textContent = "WhatsApp number not set";
+    $("#sendMsg").textContent = "The shop hasn't added its WhatsApp number yet, so this order can't be sent on WhatsApp. Copy the order and send it another way, or try email.";
+    $("#waLink").hidden = true;
+  } else {
+    $("#sendTitle").textContent = "Open WhatsApp";
+    $("#sendMsg").textContent = `WhatsApp didn't open automatically. Tap the button below. If that doesn't work either, copy the order and send it to +${CONFIG.whatsapp} on WhatsApp.`;
+    $("#waLink").href = url; $("#waLink").hidden = false;
+  }
+  $("#sendDlg").showModal();
+}
+$("#sendClose").onclick = () => $("#sendDlg").close();
+$("#waLink").onclick = () => setTimeout(() => { $("#sendDlg").close(); afterSend(); }, 300);
+$("#sendCopy").onclick = async () => {
+  try { await navigator.clipboard.writeText(orderText()); toast("Order copied"); }
+  catch(e){ const t = $("#sendText"); t.hidden = false; t.value = orderText(); t.select(); toast("Select the text and copy it"); }
+};
+$("#sendMail").onclick = () => {
+  if (!valid() || !confirmUnpaid()) return;
+  if (!CONFIG.email){ toast("Email address not set yet"); return; }
+  recordOrder();
+  location.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent("Order " + orderId + ": " + $("#custName").value.trim())}&body=${encodeURIComponent(orderText())}`;
+};
+$("#copyOrder").onclick = async () => {
+  if (!valid()) return;
+  recordOrder();
+  try { await navigator.clipboard.writeText(orderText()); toast("Order copied"); } catch(e){ toast("Couldn't copy"); }
+};
+
+/* ============ Reference photo ============ */
+let refPhoto = null;
+async function shrinkImage(f){
+  const src = URL.createObjectURL(f);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+    const k = Math.min(1, 1280 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas");
+    c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+    c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    const blob = await new Promise(r => c.toBlob(r, "image/jpeg", .85));
+    if (!blob) throw new Error("encode");
+    const file = new File([blob], `${orderId}-design.jpg`, {type: "image/jpeg"});
+    return {file, url: URL.createObjectURL(file)};
+  } finally { URL.revokeObjectURL(src); }
+}
+$("#refPhoto").onchange = async e => {
+  const f = e.target.files[0]; e.target.value = "";
+  if (!f) return;
+  if (!/^image\//.test(f.type)){ toast("Please choose a photo"); return; }
+  try { refPhoto = await shrinkImage(f); } catch(err){ refPhoto = {file: f, url: URL.createObjectURL(f)}; }
+  renderPhoto(); toast("Photo added");
+};
+function renderPhoto(){
+  $("#photoDrop").hidden = !!refPhoto;
+  $("#photoPrev").innerHTML = refPhoto ? `<img src="${refPhoto.url}" alt="Your reference design"><div><b>Photo added</b><br><small class="note">You'll send it on WhatsApp right after the order.</small></div><button type="button" class="btn ghost small" id="photoDel">Remove</button>` : "";
+  if (refPhoto) $("#photoDel").onclick = () => { refPhoto = null; renderPhoto(); };
+}
+function afterSend(){
+  if (!refPhoto) return;
+  const canShare = !!(navigator.canShare && navigator.canShare({files: [refPhoto.file]}));
+  $("#photoShare").hidden = !canShare;
+  $("#photoNoShare").hidden = canShare;
+  $("#photoSave").href = refPhoto.url; $("#photoSave").download = refPhoto.file.name || "design.jpg";
+  setTimeout(() => $("#photoDlg").showModal(), 500);
+}
+$("#photoShare").onclick = async () => {
+  try { await navigator.share({files: [refPhoto.file], title: `Design for order ${orderId}`}); $("#photoDlg").close(); }
+  catch(e){ if (e && e.name !== "AbortError") toast("Couldn't share. Tap Save photo instead."); }
+};
+$("#photoClose").onclick = () => $("#photoDlg").close();
+
+/* ============ Order again & saved details ============ */
+const fmtDay = t => new Date(t).toLocaleDateString("en-IN", {day: "numeric", month: "short"});
+function againCard(){
+  const L = store.get("fcb-last", null);
+  if (!L || !L.items || !L.items.length) return "";
+  const sum = L.items.map(x => `${x.qty}× ${x.name}`).join(", ");
+  return `<div class="again"><span class="em" aria-hidden="true">🔁</span><div class="info"><b>Order again?</b><small>${esc(fmtDay(L.at))} · ${esc(sum)}</small></div><button type="button" class="btn small" data-again>Add to order</button></div>`;
+}
+function orderAgain(){
+  const L = store.get("fcb-last", null); if (!L) return;
+  let missing = 0;
+  L.items.forEach((x, k) => {
+    if (x.custom){ cart.push({...x, id: "c" + Date.now() + k, cakeMsg: ""}); return; }
+    const i = CONFIG.menu.findIndex(m => m.name === x.name);
+    if (i < 0){ missing++; return; }
+    const m = CONFIG.menu[i], have = cart.find(c => c.id === "m" + i);
+    if (have) have.qty += x.qty;
+    else cart.push({id: "m" + i, emoji: m.emoji, name: m.name, cat: m.cat, detail: "", price: m.price, qty: x.qty, eggless: !!x.eggless});
+  });
+  save();
+  toast(missing ? `Added. ${missing} item${missing > 1 ? "s are" : " is"} no longer on the menu.` : "Your last order was added");
+  showTab("cart");
+}
+document.addEventListener("click", e => { if (e.target.closest("[data-again]")) orderAgain(); });
+function prefillCustomer(){
+  const C = store.get("fcb-customer", {});
+  if (C.name) $("#custName").value = C.name;
+  if (C.phone) $("#custPhone").value = C.phone;
+  if (C.addr) $("#custAddr").value = C.addr;
+  if (C.mode === "delivery"){ $("#custMode").value = "delivery"; $("#addrField").hidden = false; renderZones(); }
+  if (C.area != null && [...$("#custArea").options].some(o => o.value === C.area)) $("#custArea").value = C.area;
+  if (C.pin){ $("#custPin").value = C.pin; }
+}
+function recordOrder(){
+  store.set("fcb-last", {at: Date.now(), id: orderId, items: cart.map(x => ({...x}))});
+  store.set("fcb-customer", {name: $("#custName").value.trim(), phone: $("#custPhone").value.trim(), addr: $("#custAddr").value.trim(),
+    pin: $("#custPin").value.trim(), mode: $("#custMode").value, area: $("#custArea").value});
+  logToSheet();
+}
+$("#clearCart").onclick = () => {
+  if (!confirm("Remove everything from this order?")) return;
+  cart = []; orderId = newOrderId();
+  try { sessionStorage.setItem("fcb-oid", orderId); } catch(e){}
+  $("#custUtr").value = ""; refPhoto = null; renderPhoto(); save();
+};
+
+/* ============ Google Sheet order log ============ */
+const SHEET_SCRIPT = `function doPost(e) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName('Orders') || ss.insertSheet('Orders');
+  if (sh.getLastRow() === 0) {
+    sh.appendRow(['Received', 'Order ID', 'Name', 'Phone', 'For date', 'Pickup/Delivery', 'Area', 'Pincode', 'Address',
+      'Items', 'Write on cake', 'Eggless', 'Total', 'Paying now', 'UPI transaction ID', 'Balance', 'Design photo', 'Notes', 'Status']);
+    sh.setFrozenRows(1);
+  }
+  var o = JSON.parse(e.postData.contents);
+  sh.appendRow([new Date(), o.id, o.name, "'" + o.phone, o.date, o.mode, o.area, o.pincode, o.address,
+    o.items, o.cakeText, o.eggless, o.total, o.payNow, o.utr, o.balance, o.photo, o.notes, o.test ? 'TEST' : 'New']);
+  return ContentService.createTextOutput('ok');
+}`;
+$("#sheetCode").textContent = SHEET_SCRIPT;
+$("#copySheetCode").onclick = async () => { try { await navigator.clipboard.writeText(SHEET_SCRIPT); toast("Code copied"); } catch(e){ toast("Select the code and copy it"); } };
+const validSheetUrl = u => /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec/.test(String(u || "").trim());
+function orderData(){
+  const D = deliveryInfo(), P = payPlan();
+  return {
+    id: orderId, name: $("#custName").value.trim(), phone: $("#custPhone").value.trim(), date: $("#custDate").value,
+    mode: isDelivery() ? "Delivery" : "Pickup", area: D.label || "", pincode: isDelivery() ? $("#custPin").value.trim() : "",
+    address: isDelivery() ? $("#custAddr").value.trim() : "",
+    items: cart.map(x => `${x.qty}× ${x.name}${isEgg(x) ? " (eggless)" : ""}${x.detail ? " [" + x.detail + "]" : ""}`).join("; "),
+    cakeText: cart.filter(writable).map(x => `${x.name}: ${String(x.cakeMsg || "").trim() || "-"}`).join("; "),
+    eggless: cart.some(isEgg) ? "Yes" : "No",
+    total: P.total, payNow: P.now, utr: $("#custUtr").value.trim(), balance: P.balance,
+    photo: refPhoto ? "Sent on WhatsApp" : "", notes: $("#custNotes").value.trim()
+  };
+}
+let loggedSig = "";
+function logToSheet(test, url = CONFIG.sheetUrl){
+  if (!validSheetUrl(url)) return false;
+  const data = test ? {id: "TEST", name: "Test row", phone: "0000000000", date: new Date().toISOString().slice(0, 10), mode: "Pickup",
+    area: "", pincode: "", address: "", items: "1× Test item", cakeText: "", eggless: "No", total: 0, payNow: 0, utr: "", balance: 0, photo: "", notes: "Sent from Shop settings", test: true} : orderData();
+  const sig = JSON.stringify(data);
+  if (!test){ if (sig === loggedSig) return true; loggedSig = sig; }
+  fetch(String(url).trim(), {method: "POST", mode: "no-cors", headers: {"Content-Type": "text/plain;charset=utf-8"}, body: sig}).catch(() => {});
+  return true;
+}
+
+/* ============ Shop settings ============ */
+const GROUP_LABELS = {size:"Size (base price)", tiers:"Tiers", flavour:"Sponge flavour", filling:"Filling", frosting:"Frosting", extras:"Extras"};
+let draft;
+const normWa = raw => { let d = String(raw || "").replace(/\D/g, ""); if (d.length === 11 && d.startsWith("0")) d = d.slice(1); if (d.length === 10) d = "91" + d; return d; };
+
+function openSettings(){
+  draft = JSON.parse(JSON.stringify(CONFIG));
+  $("#s-whatsapp").value = draft.whatsapp ? draft.whatsapp.replace(/^91(?=\d{10}$)/, "") : "";
+  draft.zones = draft.zones || [];
+  document.querySelectorAll("#panel-settings [data-k]").forEach(el => { if (el.type === "checkbox") el.checked = !!draft[el.dataset.k]; else el.value = draft[el.dataset.k] ?? ""; });
+  updateWaPreview(); renderMenuEditor(); renderBuilderEditor(); renderZoneEditor();
+  showTab("settings");
+}
+function updateWaPreview(){
+  const n = normWa($("#s-whatsapp").value);
+  draft.whatsapp = n;
+  $("#waPreview").textContent = !n ? "No number set: the WhatsApp button won't work yet."
+    : n.length < 11 || n.length > 15 ? "That number looks incomplete. Check it."
+    : `Orders will go to +${n}`;
+}
+const priceInput = (path, val) => `<div class="price-in pr"><span>${esc(draft.currency)}</span><input type="number" min="0" step="1" data-p="${path}" data-num="1" value="${esc(val)}" aria-label="Price"></div>`;
+function renderMenuEditor(){
+  $("#edMenu").innerHTML = draft.menu.map((m, i) => `
+    <div class="ed-row ed-menu">
+      <button type="button" class="star-t" data-star="${i}" aria-pressed="${!!m.special}" title="Feature in specials" aria-label="Feature ${esc(m.name)} in specials">${m.special ? "★" : "☆"}</button>
+      <input class="emo" data-p="menu.${i}.emoji" value="${esc(m.emoji)}" aria-label="Emoji" maxlength="4">
+      <input class="nm" data-p="menu.${i}.name" value="${esc(m.name)}" placeholder="Item name" aria-label="Item name">
+      <input class="cat" data-p="menu.${i}.cat" value="${esc(m.cat)}" placeholder="Category" aria-label="Category" list="catList">
+      ${priceInput(`menu.${i}.price`, m.price)}
+      <button class="del" data-del="menu.${i}" aria-label="Delete ${esc(m.name)}">✕</button>
+      <input class="desc" data-p="menu.${i}.desc" value="${esc(m.desc)}" placeholder="Short description" aria-label="Description">
+    </div>`).join("") + `<datalist id="catList">${[...new Set(draft.menu.map(m => m.cat))].map(c => `<option value="${esc(c)}">`).join("")}</datalist>`;
+}
+function renderBuilderEditor(){
+  $("#edBuilder").innerHTML = Object.keys(GROUP_LABELS).map(g => `
+    <h4 style="margin:16px 0 4px">${GROUP_LABELS[g]}</h4>
+    ${draft.builder[g].map((o, i) => `
+      <div class="ed-row ed-opt">
+        <input data-p="builder.${g}.${i}.v" value="${esc(o.v)}" aria-label="Option name">
+        ${priceInput(`builder.${g}.${i}.add`, o.add)}
+        <button class="del" data-del="builder.${g}.${i}" aria-label="Delete ${esc(o.v)}">✕</button>
+      </div>`).join("")}
+    <button class="btn ghost" data-addopt="${g}" style="margin-top:6px;padding:6px 12px;font-size:14px">+ Add option</button>`).join("");
+}
+function renderZoneEditor(){
+  $("#edZones").innerHTML = draft.zones.map((z, i) => `
+    <div class="ed-row ed-zone">
+      <input class="nm" data-p="zones.${i}.name" value="${esc(z.name)}" placeholder="Area name, e.g. Thangal Bazar" aria-label="Area name">
+      <input class="pins" data-p="zones.${i}.pins" value="${esc(z.pins)}" placeholder="Pincodes, e.g. 795001, 795004" aria-label="Pincodes">
+      ${priceInput(`zones.${i}.fee`, z.fee)}
+      <button class="del" data-del="zones.${i}" aria-label="Delete ${esc(z.name)}">✕</button>
+    </div>`).join("") || `<p class="note" style="margin:0">No areas yet: the flat delivery fee is used.</p>`;
+}
+$("#addZone").onclick = () => { draft.zones.push({name: "", pins: "", fee: 0}); renderZoneEditor(); const n = $("#edZones").querySelectorAll(".nm"); n[n.length - 1].focus(); };
+$("#testSheet").onclick = () => {
+  if (!logToSheet(true, draft.sheetUrl)){ toast("Paste the web app URL first (it ends in /exec)"); return; }
+  toast("Test row sent. Check the “Orders” tab in your sheet.");
+};
+function setPath(path, val){
+  const keys = path.split("."); let o = draft;
+  keys.slice(0, -1).forEach(k => o = o[k]);
+  o[keys.at(-1)] = val;
+}
+$("#panel-settings").addEventListener("input", e => {
+  const el = e.target;
+  if (el.id === "s-whatsapp") return updateWaPreview();
+  const val = el.type === "checkbox" ? el.checked : el.dataset.num ? Math.max(0, parseFloat(el.value) || 0) : el.value;
+  if (el.dataset.p) setPath(el.dataset.p, val);
+  else if (el.dataset.k) draft[el.dataset.k] = val;
+});
+$("#panel-settings").addEventListener("click", e => {
+  const del = e.target.closest("[data-del]"), add = e.target.closest("[data-addopt]"), star = e.target.closest("[data-star]");
+  if (star){ const m = draft.menu[+star.dataset.star]; m.special = !m.special; renderMenuEditor(); return; }
+  if (del){
+    const keys = del.dataset.del.split("."), i = +keys.pop();
+    let arr = draft; keys.forEach(k => arr = arr[k]);
+    if (keys[0] === "builder" && keys[1] !== "extras" && arr.length <= 1){ toast("Keep at least one option"); return; }
+    arr.splice(i, 1);
+    keys[0] === "menu" ? renderMenuEditor() : keys[0] === "zones" ? renderZoneEditor() : renderBuilderEditor();
+  } else if (add){
+    draft.builder[add.dataset.addopt].push({v: "New option", add: 0}); renderBuilderEditor();
+  }
+});
+$("#addItem").onclick = () => {
+  draft.menu.push({cat: draft.menu.at(-1)?.cat || "Cakes", emoji: "🍰", name: "", desc: "", price: 0});
+  renderMenuEditor();
+  const names = $("#edMenu").querySelectorAll('[data-p$=".name"]'); names[names.length - 1].focus();
+};
+$("#testWa").onclick = () => {
+  if (!draft.whatsapp){ toast("Enter a WhatsApp number first"); return; }
+  window.open(`https://wa.me/${draft.whatsapp}?text=${encodeURIComponent("Test message from the " + (draft.name || "shop") + " ordering app")}`, "_blank");
+};
+function cleanDraft(){
+  draft.menu = draft.menu.filter(m => String(m.name).trim());
+  draft.menu.forEach(m => { m.cat = String(m.cat).trim() || "Other"; });
+  for (const g in draft.builder) draft.builder[g] = draft.builder[g].filter(o => String(o.v).trim());
+  draft.zones = (draft.zones || []).filter(z => String(z.name).trim());
+  draft.sheetUrl = String(draft.sheetUrl || "").trim();
+}
+$("#saveSettings").onclick = () => {
+  cleanDraft();
+  if (Object.keys(GROUP_LABELS).some(g => g !== "extras" && !draft.builder[g].length)){ toast("Each cake group needs at least one option"); return; }
+  const saved = store.set("fcb-config", draft);
+  store.set("fcb-cart", []);   // prices may have changed
+  if (saved){ toast("Settings saved"); setTimeout(() => location.reload(), 600); return; }
+  // This browser won't let the page store data (private mode or a preview window).
+  // Apply the changes for now, and ask the owner to download the updated app to keep them.
+  Object.assign(CONFIG, JSON.parse(JSON.stringify(draft)));
+  cart = []; applyShopInfo(); updateEggUI(); renderZones(); buildOptions(); renderCake(); renderMenu(); renderCart();
+  alert("This browser can't save settings permanently (it may be a private window or a preview).\n\nYour changes are applied until you close the page. To keep them, tap \"Download updated app\" and use that file.");
+  showTab("menu");
+};
+$("#resetSettings").onclick = () => {
+  if (!confirm("Discard all your settings and go back to the defaults?")) return;
+  try { localStorage.removeItem("fcb-config"); } catch(e){}
+  store.set("fcb-cart", []);
+  location.reload();
+};
+$("#exportApp").onclick = () => {
+  cleanDraft();
+  const START = "/*CONFIG" + "-START*/", END = "/*CONFIG" + "-END*/";
+  const a = ORIGINAL_HTML.indexOf(START), b = ORIGINAL_HTML.indexOf(END);
+  if (a < 0 || b < 0){ toast("Couldn't build the file"); return; }
+  const html = ORIGINAL_HTML.slice(0, a + START.length) + JSON.stringify(draft, null, 2) + ORIGINAL_HTML.slice(b);
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(new Blob([html], {type: "text/html"}));
+  link.download = "index.html";
+  document.body.appendChild(link); link.click(); link.remove();
+  toast("Updated app downloaded");
+};
+/* ============ Settings PIN ============ */
+// Small SHA-256 so the PIN is never stored as plain text (works offline and from file://).
+function sha256(str){
+  const K = [], H = []; let n = 2;
+  for (let c = 0; c < 64; n++){ let prime = true; for (let d = 2; d * d <= n; d++) if (n % d === 0){ prime = false; break; }
+    if (prime){ if (c < 8) H[c] = (Math.pow(n, 1/2) * 4294967296) | 0; K[c++] = (Math.pow(n, 1/3) * 4294967296) | 0; } }
+  const bytes = [...unescape(encodeURIComponent(str))].map(ch => ch.charCodeAt(0)), bits = bytes.length * 8;
+  bytes.push(0x80); while (bytes.length % 64 !== 56) bytes.push(0);
+  for (let i = 7; i >= 0; i--) bytes.push(i >= 4 ? 0 : (bits >>> (i * 8)) & 255);
+  const rotr = (x, r) => (x >>> r) | (x << (32 - r)), w = [];
+  let h = H.slice();
+  for (let j = 0; j < bytes.length; j += 64){
+    for (let i = 0; i < 16; i++) w[i] = (bytes[j+4*i] << 24) | (bytes[j+4*i+1] << 16) | (bytes[j+4*i+2] << 8) | bytes[j+4*i+3];
+    for (let i = 16; i < 64; i++){ const a = w[i-15], b = w[i-2];
+      w[i] = (w[i-16] + (rotr(a,7) ^ rotr(a,18) ^ (a >>> 3)) + w[i-7] + (rotr(b,17) ^ rotr(b,19) ^ (b >>> 10))) | 0; }
+    let [a, b, c, d, e, f, g, k] = h;
+    for (let i = 0; i < 64; i++){
+      const t1 = (k + (rotr(e,6) ^ rotr(e,11) ^ rotr(e,25)) + ((e & f) ^ (~e & g)) + K[i] + w[i]) | 0;
+      const t2 = ((rotr(a,2) ^ rotr(a,13) ^ rotr(a,22)) + ((a & b) ^ (a & c) ^ (b & c))) | 0;
+      k = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
+    }
+    h = [a, b, c, d, e, f, g, k].map((v, i) => (v + h[i]) | 0);
+  }
+  return h.map(v => (v >>> 0).toString(16).padStart(8, "0")).join("");
+}
+const hashPin = p => sha256("fcb-pin:" + p);
+const validPin = p => /^\d{4,6}$/.test(p);
+const sess = {
+  get(k){ try{ return sessionStorage.getItem(k); }catch(e){ return null; } },
+  set(k, v){ try{ sessionStorage.setItem(k, v); }catch(e){} },
+  del(k){ try{ sessionStorage.removeItem(k); }catch(e){} }
+};
+const isUnlocked = () => !!CONFIG.pinHash && sess.get("fcb-unlocked") === CONFIG.pinHash;
+let pinMode = "unlock", pinFails = 0, pinLockUntil = 0;
+
+function askPin(){
+  if (isUnlocked()) return openSettings();
+  pinMode = CONFIG.pinHash ? "unlock" : "create";
+  const create = pinMode === "create";
+  $("#pinTitle").textContent = create ? "Create a settings PIN" : "Enter settings PIN";
+  $("#pinMsg").textContent = create ? "Choose a 4–6 digit PIN. You'll need it every time you open Shop settings." : "Shop settings are for the shop owner only.";
+  $("#pin2").hidden = !create;
+  $("#pin1").value = $("#pin2").value = ""; $("#pinErr").textContent = "";
+  $("#pinOk").textContent = create ? "Set PIN" : "Unlock";
+  $("#pinDlg").showModal(); $("#pin1").focus();
+}
+function storePinHash(h){
+  CONFIG.pinHash = h; if (draft) draft.pinHash = h;
+  store.set("fcb-config", Object.assign(store.get("fcb-config", {}), {pinHash: h}));
+  sess.set("fcb-unlocked", h);
+}
+$("#pinForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const p = $("#pin1").value.trim(), err = m => { $("#pinErr").textContent = m; };
+  if (pinMode === "create"){
+    if (!validPin(p)) return err("PIN must be 4–6 digits.");
+    if (p !== $("#pin2").value.trim()) return err("The two PINs don't match.");
+    storePinHash(hashPin(p)); $("#pinDlg").close(); toast("PIN set"); openSettings(); return;
+  }
+  if (Date.now() < pinLockUntil) return err(`Too many wrong tries. Wait ${Math.ceil((pinLockUntil - Date.now()) / 1000)} seconds.`);
+  if (hashPin(p) === CONFIG.pinHash){
+    pinFails = 0; sess.set("fcb-unlocked", CONFIG.pinHash); $("#pinDlg").close(); openSettings();
+  } else {
+    $("#pin1").value = "";
+    if (++pinFails >= 5){ pinFails = 0; pinLockUntil = Date.now() + 30000; err("Too many wrong tries. Wait 30 seconds."); }
+    else err("Wrong PIN. Try again.");
+  }
+});
+$("#pinCancel").onclick = () => $("#pinDlg").close();
+$("#changePin").onclick = () => {
+  const a = $("#newPin1").value.trim(), b = $("#newPin2").value.trim();
+  if (!validPin(a)){ toast("PIN must be 4–6 digits"); return; }
+  if (a !== b){ toast("The two PINs don't match"); return; }
+  storePinHash(hashPin(a)); $("#newPin1").value = $("#newPin2").value = "";
+  toast("PIN changed");
+};
+$("#lockNow").onclick = () => { sess.del("fcb-unlocked"); showTab("menu"); toast("Settings locked"); };
+
+$("#openSettings").onclick = askPin;
+if (location.hash === "#settings") askPin();
+
+// Offline support and "Add to Home Screen" when hosted (e.g. on GitHub Pages).
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(() => {});
+updateEggUI(); renderZones(); prefillCustomer(); renderPhoto();
+renderMenu(); renderCake(); renderCart();
+if ($("#custPin").value) matchPin();
+</script>
+</body>
+</html>
