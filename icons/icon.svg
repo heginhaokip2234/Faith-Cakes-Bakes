@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="35%" r="75%">
+      <stop offset="0" stop-color="#e3f7ee"/><stop offset="1" stop-color="#9fe0c4"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <!-- plate -->
+  <ellipse cx="256" cy="392" rx="170" ry="26" fill="#1f8463" opacity=".18"/>
+  <!-- bottom tier -->
+  <rect x="106" y="270" width="300" height="118" rx="26" fill="#ffd9e4"/>
+  <path d="M106 300c25 22 50 22 75 0s50-22 75 0 50 22 75 0 50-22 75 0v-12c0-10-8-18-18-18H124c-10 0-18 8-18 18z" fill="#fff"/>
+  <!-- top tier -->
+  <rect x="156" y="180" width="200" height="98" rx="22" fill="#fff1c9"/>
+  <path d="M156 206c20 18 40 18 60 0s40-18 60 0 40 18 60 0 20-18 20-18v-6c0-8-7-14-14-14H170c-8 0-14 6-14 14z" fill="#fff"/>
+  <!-- cherries / dots -->
+  <circle cx="150" cy="335" r="11" fill="#e8578a"/><circle cx="210" cy="345" r="11" fill="#1f8463"/>
+  <circle cx="270" cy="335" r="11" fill="#e8578a"/><circle cx="330" cy="345" r="11" fill="#1f8463"/>
+  <circle cx="370" cy="330" r="9" fill="#ffb347"/>
+  <!-- candle -->
+  <rect x="244" y="112" width="24" height="70" rx="8" fill="#1f8463"/>
+  <rect x="244" y="128" width="24" height="10" fill="#fff" opacity=".6"/>
+  <rect x="244" y="152" width="24" height="10" fill="#fff" opacity=".6"/>
+  <path d="M256 66c16 18 18 32 0 44-18-12-16-26 0-44z" fill="#ffb347"/>
+  <path d="M256 82c7 9 8 16 0 22-8-6-7-13 0-22z" fill="#ffe08a"/>
+</svg>
